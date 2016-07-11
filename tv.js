@@ -9,7 +9,7 @@ var setupIframe = function() {
 }
 var getSubreddit = function(subreddit, filter) {
 	$.ajax({
-		url: 'http://api.reddit.com/r/' + subreddit + '/' + filter,
+		url: 'https://api.reddit.com/r/' + subreddit + '/' + filter,
 		success: function(res) {
 			displayVideos(res.data.children);
 		}
