@@ -1,0 +1,38 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+  <script src="tv.js"></script>
+</head>
+<body>
+
+    <div id="topRow">
+
+		<a id="dropdownButton" class='dropdown-button btn' href='#' data-constrainwidth="false" data-activates='subredditList'>videos</a>
+
+		<!-- Dropdown Structure -->
+		<ul id='subredditList' class='dropdown-content'>
+			<li><a onclick="setSubreddit('videos')">videos</a></li>
+			<li><a onclick="setSubreddit('rage')">rage</a></li>
+			<li><a onclick="setSubreddit('justiceserved')">justiceserved</a></li>
+		</ul>
+		<input placeholder="Add Subreddit" id="subredditInput" type="text" ></li>
+		<a class="btn-floating btn-medium waves-effect waves-light red" onclick="addSubreddit()"><i class="material-icons">add</i></a>
+
+	</div>
+	<div id="videoInfo"> 
+		<a id="videoLink" href="" target="_blank"><p id="videoTitle"></p></a>
+	</div>
+	<div id="player">
+		<iframe id='playerIframe' src=""></iframe>
+	</div>
+	<div id="videos">
+		<div class="carousel" id="videoCarousel">
+		</div>
+	</div>
+</body>
+
+</html>
