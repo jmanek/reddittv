@@ -44,7 +44,7 @@ var createVideoGrid = function(videos) {
 	$('#videos').append($('<div class="carousel" id="videoCarousel"></div>'))
 	//Create a carousel item for each video
 	for (var i = 0; i < videos.length; i++) {
-		videos[i].src = 'http::' + videos[i].src.replace('https:', '').replace('http:', '')
+		videos[i].src = 'https:' + videos[i].src.replace('https:', '').replace('http:', '')
 		var item = $('<a class="carousel-item" id="' + i + 
 					           '" video-data="' + videos[i].src + 
 					           '" video-title="' + videos[i].title +
