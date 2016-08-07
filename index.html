@@ -10,14 +10,15 @@
 <body>
 
     <div id="topRow">
-
+    	<i id="skipNextArrow" class="skipArrow large material-icons">skip_next</i>
+    	<i id="skipPrevArrow" class="skipArrow large material-icons">skip_previous</i>
 		<a id="dropdownButton" class='dropdown-button btn' href='#' data-constrainwidth="false" data-activates='subredditList'>videos</a>
 
 		<!-- Dropdown Structure -->
 		<ul id='subredditList' class='dropdown-content'>
-			<li><a onclick="setSubreddit('videos')">videos</a></li>
-			<li><a onclick="setSubreddit('rage')">rage</a></li>
-			<li><a onclick="setSubreddit('justiceserved')">justiceserved</a></li>
+			<li><a onclick="setSubreddit('videos', true)">videos</a></li>
+			<!-- <li><a onclick="setSubreddit('rage')">rage</a></li> -->
+			<!-- <li><a onclick="setSubreddit('justiceserved')">justiceserved</a></li> -->
 		</ul>
 		<input placeholder="Add Subreddit" id="subredditInput" type="text" ></li>
 		<a class="btn-floating btn-medium waves-effect waves-light red" onclick="addSubreddit()"><i class="material-icons">add</i></a>

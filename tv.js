@@ -1,15 +1,34 @@
 $(function() {
 	setupIframe();
-	getSubreddit('videos', 'hot');
+	buildSubredditList();
+	setSubreddit(getCurrentSubreddit(), false);
+	// window.onhashchange = playVideo
+
+	$('#skipNextArrow').mouseup(function() {
+		setVideo((parseInt(getCurrentVideoID()) + 1).toString());
+		$('.carousel').carousel('next');
+	});
+
+	$('#skipPrevArrow').mouseup(function() {
+		setVideo((parseInt(getCurrentVideoID()) - 1).toString());
+		$('.carousel').carousel('prev');
+	});
 });
 
-var setupIframe = function() {
-	$('#playerIframe').attr('width', document.body.clientWidth);
-	$('#playerIframe').attr('height', 0.75*(document.body.clientHeight));
-}
-var getSubreddit = function(subreddit, filter) {
+var buildSubredditList = function() {
+	var defaultSubreddits = ['rage', 'justiceserved', 'cringe', 'amifreetogo', 'curiousvideos', 'politicalvideos', 'documentaries'];
+	for (var i = 0; i < defaultSubreddits.length; i++) {
+		$('#subredditList').append($('<li><a onclick="setSubreddit(&#39' + defaultSubreddits[i] + '&#39, true)">' + defaultSubreddits[i] + '</a></li>'));
+	}
+};
+
+var setSubreddit = function(subreddit, resetVideoID) {
+	$("#dropdownButton").text(subreddit); 
+	var videoID = resetVideoID ? '0' : getCurrentVideoID();
+	window.location.hash = '#videoID=' + videoID + '&subreddit=' + subreddit;
+
 	$.ajax({
-		url: 'https://api.reddit.com/r/' + subreddit + '/' + filter,
+		url: 'https://api.reddit.com/r/' + subreddit + '/' + 'hot',
 		success: function(res) {
 			displayVideos(res.data.children);
 		}
@@ -17,10 +36,49 @@ var getSubreddit = function(subreddit, filter) {
 	});
 };
 
-var setSubreddit = function(subreddit) {
-	$("#dropdownButton").text(subreddit); 
-	getSubreddit(subreddit, 'hot');
-};
+var setVideo = function(video) {
+	// $('.carousel').carousel('set', parseInt(video));
+	if (parseInt(video) < 0) video = '0';
+	window.location.hash = '#videoID=' + video + '&subreddit=' + getCurrentSubreddit();
+	playVideo();
+}
+
+var playVideo = function() {
+	var video = $('#' + getCurrentVideoID());
+	$('#playerIframe').attr('src', video.attr('video-data'));
+	$('#videoLink').attr('href', video.attr('video-permalink'));
+	$('#videoTitle').text(video.attr('video-title'));
+}
+
+var getCurrentSubreddit = function() {
+	if (window.location.hash.indexOf('subreddit') < 0 ) return 'videos';
+	return window.location.hash.replace(/#videoID=[0-9]*&subreddit=/, '');
+}
+
+var getCurrentVideoID = function() {
+	videoID = window.location.hash.replace(/#videoID=/, '').replace(/&subreddit=.*/, '');
+	if (videoID == '') return '0';
+	return videoID;
+}
+
+var addSubreddit = function() {
+	var subreddit = $('#subredditInput').val();
+	$('#subredditList').append($('<li><a onclick="setSubreddit(' + subreddit + ', true)">' + subreddit + '</a></li>'));
+	setSubreddit(subreddit);	
+	$('#subredditInput').val('');
+
+}
+
+
+
+var setupIframe = function() {
+	$('#playerIframe').attr('width', document.body.clientWidth);
+	$('#playerIframe').attr('height', 0.75*(document.body.clientHeight));
+}
+
+
+
+
 var displayVideos = function(posts) {
 	//Find the videos 
 	var videos = []
@@ -49,15 +107,15 @@ var createVideoGrid = function(videos) {
 					           '" video-data="' + videos[i].src + 
 					           '" video-title="' + videos[i].title +
 					           '" video-permalink="https://reddit.com' + videos[i].permalink +
-					           '" href="#' + i + 
+					           '" onclick="setVideo(' + i + ')' +  
+					           // '" href="#' + i + 
 					           '"> <img src="' + videos[i].thumbnail + '"/></a>');
 		$('#videoCarousel').append(item);
 	}
 	//Initialize the carousel
     $('.carousel').carousel({dist:0});
+    setVideo(getCurrentVideoID());
 
-    window.location.hash = "#0"
-    playVideo();
 };
 
 //Gets the iframe src attribute returned from reddit's api
@@ -65,17 +123,5 @@ var getSrc = function(src) {
 	return src.match(/src=.[^ ]*/)[0].replace('src=', '').replace('"', '');
 };
 
-var playVideo = function() {
-	var video = $(window.location.hash);
-	$('#playerIframe').attr('src', video.attr('video-data'));
-	$('#videoLink').attr('href', video.attr('video-permalink'));
-	$('#videoTitle').text(video.attr('video-title'));
-}
-var addSubreddit = function() {
-	var subreddit = $('#subredditInput').val();
-	$('#subredditList').append($('<li><a onclick="setSubreddit("' + subreddit + '"")">' + subreddit + '</a></li>'));
-	setSubreddit(subreddit);	
-	$('#subredditInput').val('');
 
-}
-window.onhashchange = playVideo
+
