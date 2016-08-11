@@ -13,9 +13,15 @@ $(function() {
 		setVideo((parseInt(getCurrentVideoID()) - 1).toString());
 		$('.carousel').carousel('prev');
 	});
-	var iframe = document.getElementById('playerIframe').onload = function() {
+	$('body').keypress( function(e) {
+		if (e.which == 99 || e.which == 67) {
+			console.log(e.which);
+			$('#videoTitle').click();
+		}
+	});
+	// var iframe = document.getElementById('playerIframe').onload = function() {
 
-	}
+	// }
 
 // function iframeReady() {
 //   console.log('iframe is ready');
@@ -120,7 +126,7 @@ var createVideoGrid = function(videos) {
 	$('#videos').append($('<div class="carousel" id="videoCarousel"></div>'))
 	//Create a carousel item for each video
 	for (var i = 0; i < videos.length; i++) {
-		videos[i].src = 'https:' + videos[i].src.replace('https', '').replace('http', '').replace(':', '').replace('"', '').trim() + '&autoplay=1';
+		videos[i].src = 'https:' + videos[i].src.replace('https', '').replace('http', '').replace(':', '').replace('"', '').trim() + '&autoplay=1&disablekb=1';
 		console.log(videos[i].src);
 		var item = $('<a class="carousel-item" id="' + i + 
 					           '" video-data="' + videos[i].src + 
