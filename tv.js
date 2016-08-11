@@ -13,6 +13,24 @@ $(function() {
 		setVideo((parseInt(getCurrentVideoID()) - 1).toString());
 		$('.carousel').carousel('prev');
 	});
+	var iframe = document.getElementById('playerIframe').onload = function() {
+
+	}
+
+// function iframeReady() {
+//   console.log('iframe is ready');
+//   // iframe.contentDocument.removeEventListener('DOMContentLoaded', iframeReady);
+//   // iframe.contentWindow.removeEventListener('load', iframeReady);
+// }
+
+// function checkForIframeReady() {
+//   iframe.contentDocument.addEventListener('DOMContentLoaded', iframeReady);
+//   iframe.contentWindow.addEventListener('load', iframeReady);
+//   if (iframe.contentDocument.readyState === "interactive" || iframe.contentDocument.readyState === "complete") {
+//     iframeReady();
+//   }
+// }
+// checkForIframeReady();
 });
 
 var buildSubredditList = function() {
@@ -102,7 +120,8 @@ var createVideoGrid = function(videos) {
 	$('#videos').append($('<div class="carousel" id="videoCarousel"></div>'))
 	//Create a carousel item for each video
 	for (var i = 0; i < videos.length; i++) {
-		videos[i].src = 'https:' + videos[i].src.replace('https', '').replace('http', '').replace(':', '');
+		videos[i].src = 'https:' + videos[i].src.replace('https', '').replace('http', '').replace(':', '').replace('"', '').trim() + '&autoplay=1';
+		console.log(videos[i].src);
 		var item = $('<a class="carousel-item" id="' + i + 
 					           '" video-data="' + videos[i].src + 
 					           '" video-title="' + videos[i].title +
@@ -122,6 +141,5 @@ var createVideoGrid = function(videos) {
 var getSrc = function(src) {
 	return src.match(/src=.[^ ]*/)[0].replace('src=', '').replace('"', '');
 };
-
 
 
