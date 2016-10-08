@@ -40,7 +40,7 @@ $(function() {
 });
 
 var buildSubredditList = function() {
-	var defaultSubreddits = ['rage', 'justiceserved', 'cringe', 'amifreetogo', 'curiousvideos', 'politicalvideos', 'documentaries'];
+	var defaultSubreddits = ['rage', 'justiceserved', 'cringe', 'amifreetogo', 'curiousvideos', 'politicalvideo', 'artisanvideos', 'documentaries'];
 	for (var i = 0; i < defaultSubreddits.length; i++) {
 		$('#subredditList').append($('<li><a onclick="setSubreddit(&#39' + defaultSubreddits[i] + '&#39, true)">' + defaultSubreddits[i] + '</a></li>'));
 	}
